@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">AppORM</string>
+
+    <string name="hint_title"><font size="20">Título</font></string>
+    <string name="hint_content"><font size="16">Conteúdo</font></string>
+</resources>
