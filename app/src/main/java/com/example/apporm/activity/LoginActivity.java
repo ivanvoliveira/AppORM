@@ -33,6 +33,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getSupportActionBar().setTitle("Login");
 
         LoginButton buttonFacebook = findViewById(R.id.button_facebook);
 
@@ -89,7 +90,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
     }
 
-    private void loginVerify(){
+    private void loginVerify() {
         if (auth.getCurrentUser() != null) {
             startActivity(new Intent(this, MainActivity.class));
             finish();

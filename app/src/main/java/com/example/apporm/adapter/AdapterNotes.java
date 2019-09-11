@@ -39,7 +39,7 @@ public class AdapterNotes extends RecyclerView.Adapter<AdapterNotes.ViewHolderNo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolderNotes viewHolder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolderNotes viewHolder, int position) {
         Note note = notes.get(position);
 
         viewHolder.title.setText(note.getTitle());
@@ -49,7 +49,7 @@ public class AdapterNotes extends RecyclerView.Adapter<AdapterNotes.ViewHolderNo
             @Override
             public void onClick(View v) {
                 context = v.getContext();
-                Note selectedNote = notes.get(position);
+                Note selectedNote = notes.get(viewHolder.getAdapterPosition());
 
                 Intent intent = new Intent(v.getContext(), NoteActivity.class);
                 intent.putExtra("SelectedNote", selectedNote);
@@ -63,7 +63,7 @@ public class AdapterNotes extends RecyclerView.Adapter<AdapterNotes.ViewHolderNo
             public boolean onLongClick(final View v) {
                 context = v.getContext();
                 AlertDialog.Builder dialog = new AlertDialog.Builder(v.getContext());
-                Note selectedNote = notes.get(position);
+                Note selectedNote = notes.get(viewHolder.getAdapterPosition());
 
                 dialog.setTitle("Confirmar exclusão");
                 dialog.setMessage("Deseja excluir a nota: " + selectedNote.getTitle()+ "?");
@@ -71,13 +71,13 @@ public class AdapterNotes extends RecyclerView.Adapter<AdapterNotes.ViewHolderNo
                 dialog.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Note selectedNote = notes.get(position);
+                        Note selectedNote = notes.get(viewHolder.getAdapterPosition());
 
                         NoteDAO dao = AppDatabase.getDatabase(context).noteDAO();
 
                         dao.delete(selectedNote);
-                        notes.remove(position);
-                        notifyItemRemoved(position);
+                        notes.remove(viewHolder.getAdapterPosition());
+                        notifyItemRemoved(viewHolder.getAdapterPosition());
                         Toast.makeText(context, "Nota excluída!", Toast.LENGTH_SHORT).show();
                     }
                 });
