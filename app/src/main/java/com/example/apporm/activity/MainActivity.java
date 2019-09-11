@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.apporm.R;
 import com.example.apporm.adapter.AdapterNotes;
@@ -26,18 +27,20 @@ public class MainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private FloatingActionButton fabAdd;
-
-    private List<Note> notes = new ArrayList<>();
-    private AdapterNotes adapterNotes;
+    private TextView textViewID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("Bloco de Notas");
+        getSupportActionBar().setTitle("Bloco de notas");
 
         recyclerView = findViewById(R.id.recyclerView);
         fabAdd = findViewById(R.id.fab_add);
+        textViewID = findViewById(R.id.textView_UID);
+
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        textViewID.setText("ID: " + auth.getCurrentUser().getUid());
 
         fabAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,9 +59,9 @@ public class MainActivity extends AppCompatActivity {
     private void listNotes(){
         NoteDAO dao = AppDatabase.getDatabase(getApplicationContext()).noteDAO();
 
-        notes = dao.getAll();
+        List<Note> notes = dao.getAll();
 
-        adapterNotes = new AdapterNotes(notes);
+        AdapterNotes adapterNotes = new AdapterNotes(notes);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         recyclerView.setAdapter(adapterNotes);
     }
