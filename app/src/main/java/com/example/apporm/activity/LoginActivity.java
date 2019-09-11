@@ -26,7 +26,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
-    private LoginButton buttonFacebook;
 
     private FirebaseAuth auth;
 
@@ -35,7 +34,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        buttonFacebook = findViewById(R.id.button_facebook);
+        LoginButton buttonFacebook = findViewById(R.id.button_facebook);
 
         auth = FirebaseAuth.getInstance();
 
@@ -66,6 +65,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        loginVerify();
+    }
+
     private void handleFacebookAcessToken(AccessToken token) {
         AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
         auth.signInWithCredential(credential)
@@ -82,5 +87,12 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void loginVerify(){
+        if (auth.getCurrentUser() != null) {
+            startActivity(new Intent(this, MainActivity.class));
+            finish();
+        }
     }
 }
