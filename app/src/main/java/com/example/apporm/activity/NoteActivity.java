@@ -59,7 +59,6 @@ public class NoteActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.menu_save:
                 saveNote();
-                finish();
                 break;
         }
 
